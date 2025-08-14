@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "tubs.bglootall.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "HandledScreenAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

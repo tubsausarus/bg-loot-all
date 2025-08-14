@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "bg-loot-all",
+	"version": "${version}",
+	"name": "BG Loot All",
+	"description": "This is a mod for the Piratesoftware server Blockgame! It lets you loot all from chests.",
+	"authors": [
+		"Me! aka tubsausarus"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/bg-loot-all/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"tubs.bglootall.BGLootAll"
+		],
+		"client": [
+			"tubs.bglootall.BGLootAllClient"
+		]
+	},
+	"mixins": [
+		"bg-loot-all.mixins.json",
+		{
+			"config": "bg-loot-all.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
