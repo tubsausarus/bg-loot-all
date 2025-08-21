@@ -15,6 +15,7 @@ public class Constants {
     public static final int BUTTON_SEPARATION_MARGIN = 4;
     public static final int BUTTON_TOP_MARGIN = 5;
     public static final int BUTTON_BOTTOM_MARGIN = 14;
-    public static final HashSet<String> containerTitlesForButtons = new HashSet<String>(Arrays.asList("Booty", "Large Chest", "Chest", "Barrel"));
+    public static final float DEFAULT_TEXT_SCALE = 0.8f;
+    public static final HashSet<String> containerTitlesForButtons = new HashSet<>(Arrays.asList("Booty", "Large Chest", "Chest", "Barrel"));
 
 }
