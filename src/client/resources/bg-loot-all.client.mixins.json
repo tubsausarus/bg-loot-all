@@ -3,7 +3,8 @@
   "package": "tubs.bglootall.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "HandledScreenAccessor"
+    "HandledScreenAccessor",
+    "HandledScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

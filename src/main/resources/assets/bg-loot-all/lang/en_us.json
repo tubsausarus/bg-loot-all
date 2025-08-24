@@ -2,6 +2,7 @@
   "category.bg-loot-all.loot": "Tub's Blockgame Loot All Buttons",
 
   "key.bg-loot-all.manageIgnoreList": "Manage Ignore List",
+  "key.bg-loot-all.lootAllHotkey": "Loots All From Open Container",
 
   "button.bg-loot-all.lootAll": "Loot All",
   "button.bg-loot-all.lootSome": "Loot Some",

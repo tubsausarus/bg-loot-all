@@ -34,7 +34,7 @@ public class BGLootAllClient implements ClientModInitializer {
         ));
 
         // register keybinds
-        IgnoreListKeybinds.register();
+        Keybinds.register();
 
         // adds buttons to the allowed screen/containers
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {

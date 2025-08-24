@@ -11,29 +11,62 @@ import org.lwjgl.glfw.GLFW;
 import static tubs.bglootall.Constants.MY_LOGGER;
 
 
-public class IgnoreListKeybinds {
+public class Keybinds {
 
-    private static KeyBinding manageIgnoreListKey;
+    public static KeyBinding manageIgnoreListKey;
+    public static KeyBinding lootAllKey;
+    public static KeyBinding lootSomeKey;
+    public static KeyBinding depositAllKey;
+    public static KeyBinding depositMatchingKey;
 
-    // Overlay message state
+
+    // Overlay message state for IgnoreList Display Messages
     private static String overlayMessage = "";
     private static long overlayUntil = 0;
 
     public static void register() {
+        // Register for Controls menu (so users can rebind)
+        lootAllKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bg-loot-all.lootAllHotkey",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_L,
+                "category.bg-loot-all.loot"
+        ));
+        lootSomeKey= KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bg-loot-all.lootSomeHotkey",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_K,
+                "category.bg-loot-all.loot"
+        ));
+
+        depositAllKey= KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bg-loot-all.depositAllHotkey",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_P,
+                "category.bg-loot-all.loot"
+        ));
+        depositMatchingKey= KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bg-loot-all.depositMatchingHotkey",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_O,
+                "category.bg-loot-all.loot"
+        ));
+
         manageIgnoreListKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.bg-loot-all.manageIgnoreList",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
-                "category.bg-loot-all.loot"
+                "category.bg-loot-all.debug"
         ));
 
+        // global tick listener for hotkeys that should work OUTSIDE GUIs - ie just our ignore list manager one for now
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (manageIgnoreListKey.wasPressed()) {
-                if (client.player != null) {
-                    handleKeyPress(client);
-                }
+                handleIgnoreList(client);
             }
         });
+
+        // see src/client/java/tubs/bglootall/mixin/client/HandledScreenMixin.java for where we manage the chest hotkeys
 
         HudRenderCallback.EVENT.register((context, tickDelta) -> {
             if (!overlayMessage.isEmpty() && System.currentTimeMillis() < overlayUntil) {
@@ -43,7 +76,7 @@ public class IgnoreListKeybinds {
         });
     }
 
-    private static void handleKeyPress(MinecraftClient client) {
+    private static void handleIgnoreList(MinecraftClient client) {
         var stack = client.player.getMainHandStack();
         if (stack.isEmpty()) {
             String message = "[IgnoreList] Nothing in hand";
@@ -87,7 +120,7 @@ public class IgnoreListKeybinds {
         }
     }
 
-    private static void showOverlay(String message) {
+    public static void showOverlay(String message) {
         overlayMessage = message;
         overlayUntil = System.currentTimeMillis() + 3000; // show for 3s
     }
