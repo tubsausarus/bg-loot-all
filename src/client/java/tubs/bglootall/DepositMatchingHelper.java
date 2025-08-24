@@ -21,7 +21,7 @@ public class DepositMatchingHelper {
 
         Screens.getButtons((Screen) accessor).add(new CustomTextSizeButton(
                 x, y, BUTTON_WIDTH + diff, BUTTON_HEIGHT,
-                Text.literal("Stack Matching"),
+                Text.translatable("button.bg-loot-all.depositMatching"),
                 () -> depositMatching((HandledScreen<?>) accessor),
                 (HandledScreen<?>) accessor, DEFAULT_TEXT_SCALE, false
         ));

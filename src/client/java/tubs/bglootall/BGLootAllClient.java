@@ -33,6 +33,7 @@ public class BGLootAllClient implements ClientModInitializer {
                 )
         ));
 
+        // register keybinds
         IgnoreListKeybinds.register();
 
         // adds buttons to the allowed screen/containers
@@ -42,12 +43,10 @@ public class BGLootAllClient implements ClientModInitializer {
             if (screen instanceof InventoryScreen || screen instanceof CreativeInventoryScreen) {
                 return;
             }
-            MY_LOGGER.info("[LootAll] Opened screen: {}", screen.getClass().getName());
+            MY_LOGGER.debug("[LootAll] Opened screen: {}", screen.getClass().getName());
 
             if (screen instanceof HandledScreen<?> handled) {
-                var title = handled.getTitle().getString();
-
-                if(containerTitlesForButtons.contains(title)) {
+                if(ContainerActions.isSupportedContainer(handled)) {
                     LootAllHelper.addLootAllButton((HandledScreenAccessor) handled);
                     LootSomeHelper.addLootSomeButton((HandledScreenAccessor) handled);
                     DepositAllHelper.addDepositAllButton((HandledScreenAccessor) handled);
@@ -56,7 +55,7 @@ public class BGLootAllClient implements ClientModInitializer {
                     MY_LOGGER.debug("[LootAll] Not adding Button to screen with the values - Screen: {} | HandlerType: {} | Title: {}.",
                             handled.getClass().getName(),
                             handled.getScreenHandler().getType(),
-                            title
+                            handled.getTitle().getString()
                     );
                 }
 

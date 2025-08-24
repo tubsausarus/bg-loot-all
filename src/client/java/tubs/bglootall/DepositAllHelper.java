@@ -22,7 +22,7 @@ public class DepositAllHelper {
 
         Screens.getButtons((Screen) accessor).add(new CustomTextSizeButton(
                 x, y, BUTTON_WIDTH-diff, BUTTON_HEIGHT,
-                Text.literal("Deposit All"),
+                Text.translatable("button.bg-loot-all.depositAll"),
                 () -> depositAll((HandledScreen<?>) accessor),
                 (HandledScreen<?>) accessor, DEFAULT_TEXT_SCALE, false
         ));

@@ -1,0 +1,10 @@
+{
+  "category.bg-loot-all.loot": "Tub's Blockgame Loot All Buttons",
+
+  "key.bg-loot-all.manageIgnoreList": "Manage Ignore List",
+
+  "button.bg-loot-all.lootAll": "Loot All",
+  "button.bg-loot-all.lootSome": "Loot Some",
+  "button.bg-loot-all.depositAll": "Deposit All",
+  "button.bg-loot-all.depositMatching": "Stack Matching"
+}

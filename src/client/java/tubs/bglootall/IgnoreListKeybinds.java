@@ -21,10 +21,10 @@ public class IgnoreListKeybinds {
 
     public static void register() {
         manageIgnoreListKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.mymod.manageIgnoreList",
+                "key.bg-loot-all.manageIgnoreList",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
-                "category.mymod.debug"
+                "category.bg-loot-all.loot"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

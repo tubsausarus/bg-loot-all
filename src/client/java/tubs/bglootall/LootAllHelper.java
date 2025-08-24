@@ -22,7 +22,7 @@ public class LootAllHelper {
 
         Screens.getButtons((Screen) accessor).add(new CustomTextSizeButton(
                 x, y, BUTTON_WIDTH-diff, BUTTON_HEIGHT,
-                Text.literal("Loot All"),
+                Text.translatable("button.bg-loot-all.lootAll"),
                 () -> lootAll((HandledScreen<?>) accessor, false),
                 (HandledScreen<?>) accessor, DEFAULT_TEXT_SCALE, true
         ));

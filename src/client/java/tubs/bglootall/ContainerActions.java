@@ -6,14 +6,26 @@ import java.util.Set;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.Item;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
+import static tubs.bglootall.Constants.containerTitlesForButtons;
 import static tubs.bglootall.LootSomeIgnoreList.isIgnored;
 
 public class ContainerActions {
+
+    public static boolean isSupportedContainer(HandledScreen<?> screen) {
+        // Example: Only chest-like screens you already support
+        ScreenHandler handler = screen.getScreenHandler();
+        if (!(handler instanceof GenericContainerScreenHandler)) return false;
+
+        // Exclude ender chest (adjust to match your existing rule)
+        String title = screen.getTitle().getString();
+        return title != null && containerTitlesForButtons.contains(title);
+    }
 
     /**
      * Loot everything from the container into the player's inventory,
