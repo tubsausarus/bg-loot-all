@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.text.Text;
+import tubs.bglootall.config.ConfigManager;
 import tubs.bglootall.mixin.client.HandledScreenAccessor;
 
 
@@ -32,7 +33,8 @@ public class BGLootAllClient implements ClientModInitializer {
                         })
                 )
         ));
-
+        // load JSON config
+        ConfigManager.load();
         // register keybinds
         Keybinds.register();
 

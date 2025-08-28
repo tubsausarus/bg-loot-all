@@ -12,6 +12,9 @@ base {
 
 repositories {
     maven { url "https://maven.bnjc.dev/" }
+    maven { url "https://maven.terraformersmc.com/" }  // 🔑 for Mod Menu
+    maven { url "https://maven.shedaniel.me/" }        // 🔑 for Cloth Config
+    mavenCentral()
 }
 
 loom {
@@ -27,17 +30,14 @@ loom {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
     modImplementation "dev.bnjc.bglib:bgi-parser:0.2.1-SNAPSHOT"
     include "dev.bnjc.bglib:bgi-parser:0.2.1-SNAPSHOT"
-	
+    modImplementation "com.terraformersmc:modmenu:13.0.3"
+    modImplementation "me.shedaniel.cloth:cloth-config-fabric:17.0.144"
 }
 
 processResources {
@@ -49,7 +49,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+//	it.options.release = 21
 }
 
 java {
@@ -60,6 +60,9 @@ java {
 
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 jar {

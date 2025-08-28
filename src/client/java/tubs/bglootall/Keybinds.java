@@ -121,6 +121,9 @@ public class Keybinds {
     }
 
     public static void showOverlay(String message) {
+        if (!tubs.bglootall.config.ConfigManager.CONFIG.debugOverlay) {
+            return; // only show if debug is enabled
+        }
         overlayMessage = message;
         overlayUntil = System.currentTimeMillis() + 3000; // show for 3s
     }

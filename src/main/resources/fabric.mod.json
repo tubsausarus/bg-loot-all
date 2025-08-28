@@ -20,7 +20,10 @@
 		],
 		"client": [
 			"tubs.bglootall.BGLootAllClient"
-		]
+		],
+      "modmenu": [
+        "tubs.bglootall.integration.ModMenuIntegration"
+      ]
 	},
 	"mixins": [
 		"bg-loot-all.mixins.json",
@@ -36,6 +39,7 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+      "cloth-config": "*",
+      "modmenu": "*"
 	}
 }
