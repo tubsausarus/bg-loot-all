@@ -5,7 +5,6 @@ import java.util.Set;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.item.Item;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -87,7 +86,7 @@ public class ContainerActions {
         int containerSize = handler.slots.size() - player.getInventory().size();
 
         // Collect all items already in the container
-        Set<Item> containerItems = new HashSet<>();
+        Set<String> containerItems = new HashSet<>();
         for (int i = 0; i < handler.slots.size(); i++) {
             var slot = handler.slots.get(i);
 
@@ -95,7 +94,7 @@ public class ContainerActions {
             if (slot.inventory == player.getInventory() || !slot.hasStack()) continue;
 
             if (slot.hasStack()) {
-                containerItems.add(slot.getStack().getItem());
+                containerItems.add(LootSomeIgnoreList.getUniqueItemIdentifier(slot.getStack()));
             }
         }
 
@@ -105,7 +104,7 @@ public class ContainerActions {
             // skip non-player slots and empty slots
             if (slot.inventory != player.getInventory() || !slot.hasStack()) continue;
 
-            if (containerItems.contains(slot.getStack().getItem())) {
+            if (containerItems.contains(LootSomeIgnoreList.getUniqueItemIdentifier(slot.getStack()))) {
                 clickSlot(client, handler, player, slot);
             }
         }
