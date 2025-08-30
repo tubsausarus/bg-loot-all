@@ -40,7 +40,7 @@ public class LootSomeIgnoreList {
             MY_LOGGER.info("[LootAll] Loaded ignore list: {} entries", ITEMS.size());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            MY_LOGGER.error(e.getLocalizedMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class LootSomeIgnoreList {
 
             MY_LOGGER.info("[LootAll] Created default ignore list config");
         } catch (Exception e) {
-            e.printStackTrace();
+            MY_LOGGER.error(e.getLocalizedMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class LootSomeIgnoreList {
             GSON.toJson(ITEMS, writer);
             MY_LOGGER.info("[LootAll] Saved ignore list ({} entries)", ITEMS.size());
         } catch (Exception e) {
-            e.printStackTrace();
+            MY_LOGGER.error(e.getLocalizedMessage());
         }
     }
 

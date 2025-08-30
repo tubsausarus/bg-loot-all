@@ -80,39 +80,37 @@ public class Keybinds {
 
         boolean ctrl = InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)
                 || InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_CONTROL);
-
+        String message = "[IgnoreList] ";
         if (stack.isEmpty() && !ctrl) {
-            String message = "[IgnoreList] Nothing in hand";
-            MY_LOGGER.info(message);
-            showToast(client,message);
-            return;
+            message += "Nothing in hand";
         }
-
-        if (ctrl) {
-            // List all entries
-            String message = "[IgnoreList] Currently has "+LootSomeIgnoreList.ITEMS.size()+" entries";
-            MY_LOGGER.info(message);
-            showToast(client, message);
-        } else if (shift) {
-            // Remove
-            if (LootSomeIgnoreList.ITEMS.remove(robustIdentifier)) {
-                LootSomeIgnoreList.save(); // persist
-                String message = "[IgnoreList] Removed: " + robustIdentifier;
-                MY_LOGGER.info(message);
-                showToast(client,message);
+        else{
+            if (ctrl) {
+                // List all entries
+                message += "Currently has "+LootSomeIgnoreList.ITEMS.size()+" entries";
+            } else if (shift) {
+                // Remove
+                if (LootSomeIgnoreList.ITEMS.remove(robustIdentifier)) {
+                    LootSomeIgnoreList.save(); // persist
+                    message += "Removed: " + robustIdentifier;
+                } else {
+                    message = "Not found: " + robustIdentifier;
+                }
             } else {
-                String message = "[IgnoreList] Not found: " + robustIdentifier;
-                MY_LOGGER.info(message);
-                showToast(client, message);
+
+                if(LootSomeIgnoreList.isIgnored(robustIdentifier)){
+                    message += "Already contained: " + robustIdentifier;
+                }else{
+                    // Add
+                    LootSomeIgnoreList.ITEMS.add(robustIdentifier);
+                    LootSomeIgnoreList.save();
+                    message = "Added: " + robustIdentifier;
+                }
+
             }
-        } else {
-            // Add
-            LootSomeIgnoreList.ITEMS.add(robustIdentifier);
-            LootSomeIgnoreList.save();
-            String message = "[IgnoreList] Added: " + robustIdentifier;
-            MY_LOGGER.info(message);
-            showToast(client,message);
         }
+        MY_LOGGER.info(message);
+        showToast(client, message);
     }
 
     public static void showToast(MinecraftClient client,String message) {
