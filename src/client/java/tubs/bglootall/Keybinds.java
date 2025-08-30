@@ -2,12 +2,16 @@ package tubs.bglootall;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import static tubs.bglootall.Constants.MOD_ID;
 import static tubs.bglootall.Constants.MY_LOGGER;
 
 
@@ -18,11 +22,6 @@ public class Keybinds {
     public static KeyBinding lootSomeKey;
     public static KeyBinding depositAllKey;
     public static KeyBinding depositMatchingKey;
-
-
-    // Overlay message state for IgnoreList Display Messages
-    private static String overlayMessage = "";
-    private static long overlayUntil = 0;
 
     public static void register() {
         // Register for Controls menu (so users can rebind)
@@ -67,23 +66,12 @@ public class Keybinds {
         });
 
         // see src/client/java/tubs/bglootall/mixin/client/HandledScreenMixin.java for where we manage the chest hotkeys
-
-        HudRenderCallback.EVENT.register((context, tickDelta) -> {
-            if (!overlayMessage.isEmpty() && System.currentTimeMillis() < overlayUntil) {
-                var mc = MinecraftClient.getInstance();
-                context.drawText(mc.textRenderer, overlayMessage, 5, 25, 0xFFFF55, true);
-            }
-        });
     }
 
     private static void handleIgnoreList(MinecraftClient client) {
-        var stack = client.player.getMainHandStack();
-        if (stack.isEmpty()) {
-            String message = "[IgnoreList] Nothing in hand";
-            MY_LOGGER.info(message);
-            showOverlay(message);
-            return;
-        }
+        ClientPlayerEntity player = client.player;
+        if(player == null) return;
+        ItemStack stack = player.getMainHandStack();
 
         String robustIdentifier = LootSomeIgnoreList.getUniqueItemIdentifier(stack); // registry ID
 
@@ -93,22 +81,29 @@ public class Keybinds {
         boolean ctrl = InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)
                 || InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_CONTROL);
 
+        if (stack.isEmpty() && !ctrl) {
+            String message = "[IgnoreList] Nothing in hand";
+            MY_LOGGER.info(message);
+            showToast(client,message);
+            return;
+        }
+
         if (ctrl) {
             // List all entries
-            String message = "[IgnoreList] Current entries: " + LootSomeIgnoreList.ITEMS;
-                    MY_LOGGER.info(message);
-            showOverlay(message);
+            String message = "[IgnoreList] Currently has "+LootSomeIgnoreList.ITEMS.size()+" entries";
+            MY_LOGGER.info(message);
+            showToast(client, message);
         } else if (shift) {
             // Remove
             if (LootSomeIgnoreList.ITEMS.remove(robustIdentifier)) {
                 LootSomeIgnoreList.save(); // persist
                 String message = "[IgnoreList] Removed: " + robustIdentifier;
                 MY_LOGGER.info(message);
-                showOverlay(message);
+                showToast(client,message);
             } else {
                 String message = "[IgnoreList] Not found: " + robustIdentifier;
                 MY_LOGGER.info(message);
-                showOverlay(message);
+                showToast(client, message);
             }
         } else {
             // Add
@@ -116,16 +111,15 @@ public class Keybinds {
             LootSomeIgnoreList.save();
             String message = "[IgnoreList] Added: " + robustIdentifier;
             MY_LOGGER.info(message);
-            showOverlay(message);
+            showToast(client,message);
         }
     }
 
-    public static void showOverlay(String message) {
-        if (!tubs.bglootall.config.ConfigManager.CONFIG.debugOverlay) {
-            return; // only show if debug is enabled
-        }
-        overlayMessage = message;
-        overlayUntil = System.currentTimeMillis() + 3000; // show for 3s
+    public static void showToast(MinecraftClient client,String message) {
+         client.getToastManager().add(
+                            SystemToast.create(client, SystemToast.Type.NARRATOR_TOGGLE, Text.of(MOD_ID), Text.of(message))
+         );
+
     }
 }
 

@@ -22,7 +22,6 @@ public abstract class HandledScreenMixin {
         if (Keybinds.lootAllKey.matchesKey(keyCode, scanCode)) {
             if (ContainerActions.isSupportedContainer(screen)) {
                 ContainerActions.lootAll(screen, false);
-                Keybinds.showOverlay("[LootAll] Looted container");
                 cir.setReturnValue(true);
             }
         }
@@ -31,7 +30,6 @@ public abstract class HandledScreenMixin {
         if (Keybinds.lootSomeKey.matchesKey(keyCode, scanCode)) {
             if (ContainerActions.isSupportedContainer(screen)) {
                 ContainerActions.lootAll(screen, true);
-                Keybinds.showOverlay("[LootSome] Looted only allowed items");
                 cir.setReturnValue(true);
             }
         }
@@ -40,7 +38,6 @@ public abstract class HandledScreenMixin {
         if (Keybinds.depositAllKey.matchesKey(keyCode, scanCode)) {
             if (ContainerActions.isSupportedContainer(screen)) {
                 ContainerActions.depositAll(screen);
-                Keybinds.showOverlay("[DepositAll] Deposited everything");
                 cir.setReturnValue(true);
             }
         }
@@ -49,7 +46,6 @@ public abstract class HandledScreenMixin {
         if (Keybinds.depositMatchingKey.matchesKey(keyCode, scanCode)) {
             if (ContainerActions.isSupportedContainer(screen)) {
                 ContainerActions.depositMatching(screen);
-                Keybinds.showOverlay("[DepositMatching] Deposited matching items");
                 cir.setReturnValue(true);
             }
         }
